@@ -8,9 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
-public interface TodoRepository extends JpaRepository<Todo, Long> {
+public interface TodoRepository extends JpaRepository<Todo, Long>, TodoRepositoryCustom {
 
     // 조건 검색 - null이면 조건 무시
     @Query("SELECT t FROM Todo t LEFT JOIN FETCH t.user u " +
@@ -25,8 +24,4 @@ public interface TodoRepository extends JpaRepository<Todo, Long> {
             Pageable pageable
     );
 
-    @Query("SELECT t FROM Todo t " +
-            "LEFT JOIN FETCH t.user " +
-            "WHERE t.id = :todoId")
-    Optional<Todo> findByIdWithUser(@Param("todoId") Long todoId);
 }
